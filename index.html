@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#090909">
+  <meta name="description" content="SHULKERMC.PL — serwer Minecraft BoxPvP. Dołącz do gry!">
+  <title>SHULKERMC.PL — BoxPvP</title>
+  <style>
+    :root {
+      --bg: #080808; --panel: #111; --panel2: #171313; --red: #ef2929;
+      --red2: #a90f18; --text: #f5f5f5; --muted: #aaa; --line: #292020;
+      --max: 1120px;
+    }
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0; background: var(--bg); color: var(--text);
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, Segoe UI, sans-serif;
+      line-height: 1.6;
+    }
+    a { color: inherit; text-decoration: none; }
+    button { font: inherit; cursor: pointer; }
+    .wrap { width: min(var(--max), calc(100% - 40px)); margin: auto; }
+    .topline { height: 3px; background: linear-gradient(90deg, #65070d, var(--red), #65070d); }
+    header {
+      position: sticky; top: 0; z-index: 20; background: rgba(8,8,8,.92);
+      backdrop-filter: blur(14px); border-bottom: 1px solid #211919;
+    }
+    .nav { min-height: 76px; display: flex; align-items: center; justify-content: space-between; gap: 24px; }
+    .brand { display: flex; align-items: center; gap: 11px; font-weight: 950; letter-spacing: 1px; }
+    .brand-mark {
+      width: 39px; height: 39px; display: grid; place-items: center; border-radius: 10px;
+      color: white; font-weight: 1000; background: linear-gradient(145deg, #fa3b3b, #790b12);
+      box-shadow: 0 0 24px #e21b1b42;
+    }
+    .brand span:last-child { font-size: 19px; }
+    .brand b { color: var(--red); }
+    .links { display: flex; gap: 26px; align-items: center; color: #c9c2c2; font-size: 14px; }
+    .links a:hover { color: white; }
+    .nav-cta, .btn {
+      display: inline-flex; align-items: center; justify-content: center; gap: 9px;
+      border: 0; border-radius: 8px; padding: 12px 18px; font-weight: 850;
+      color: white; background: linear-gradient(135deg, #f13939, #a90f18);
+      box-shadow: 0 8px 26px #e21b1b26; transition: transform .18s, filter .18s;
+    }
+    .nav-cta:hover, .btn:hover { transform: translateY(-2px); filter: brightness(1.12); }
+    .btn.secondary { background: #171313; border: 1px solid #442326; box-shadow: none; }
+    .menu-btn { display: none; color: white; background: transparent; border: 1px solid var(--line); border-radius: 8px; padding: 8px 12px; }
+    .hero {
+      min-height: 650px; display: grid; place-items: center; text-align: center; overflow: hidden;
+      position: relative; isolation: isolate;
+      background:
+        radial-gradient(ellipse at 50% 32%, #8f111b55 0, transparent 38%),
+        linear-gradient(180deg, #10090a 0%, #080808 92%);
+    }
+    .hero:before, .hero:after { content: ""; position: absolute; z-index: -1; pointer-events: none; }
+    .hero:before {
+      inset: 0; opacity: .23;
+      background-image: linear-gradient(#ffffff0b 1px, transparent 1px), linear-gradient(90deg, #ffffff0b 1px, transparent 1px);
+      background-size: 42px 42px; mask-image: linear-gradient(to bottom, black, transparent 90%);
+    }
+    .hero:after {
+      width: 520px; height: 520px; border: 1px solid #e52a2a24; border-radius: 50%;
+      box-shadow: 0 0 0 55px #e52a2a0a, 0 0 0 110px #e52a2a07;
+      top: 48%; left: 50%; transform: translate(-50%,-50%);
+    }
+    .eyebrow {
+      display: inline-flex; gap: 8px; align-items: center; border: 1px solid #572126;
+      background: #1b0e10; color: #ff7777; border-radius: 99px; padding: 7px 13px;
+      font-size: 12px; font-weight: 900; letter-spacing: 1.5px; text-transform: uppercase;
+    }
+    .dot { width: 7px; height: 7px; border-radius: 50%; background: #ff3434; box-shadow: 0 0 12px #ff3434; }
+    h1 { font-size: clamp(48px, 9vw, 104px); line-height: .98; letter-spacing: -5px; margin: 25px 0 18px; font-weight: 1000; }
+    h1 span { color: var(--red); text-shadow: 0 0 42px #f3262650; }
+    .hero p { color: #bdb5b5; max-width: 610px; margin: 0 auto; font-size: clamp(15px, 2vw, 18px); }
+    .hero-actions { display: flex; justify-content: center; gap: 12px; flex-wrap: wrap; margin-top: 30px; }
+    .ip-box {
+      display: inline-flex; align-items: center; gap: 13px; margin-top: 30px; padding: 10px 12px 10px 18px;
+      border: 1px solid #3b2525; border-radius: 10px; background: #100e0e; color: #fff;
+    }
+    .ip-box small { display: block; color: #928888; text-align: left; font-size: 10px; text-transform: uppercase; letter-spacing: 1.4px; }
+    .ip-box strong { font-size: 16px; letter-spacing: 1px; }
+    .copy { border: 0; border-radius: 7px; background: #e72a2a; color: white; font-weight: 900; padding: 10px 13px; }
+    .section { padding: 88px 0; }
+    .section.dark { background: #0d0b0b; border-top: 1px solid #1d1717; border-bottom: 1px solid #1d1717; }
+    .section-head { text-align: center; margin: 0 auto 42px; max-width: 650px; }
+    .kicker { color: #fa5656; font-size: 12px; font-weight: 950; letter-spacing: 2px; text-transform: uppercase; }
+    h2 { font-size: clamp(30px, 5vw, 46px); line-height: 1.1; margin: 10px 0 12px; letter-spacing: -1.5px; }
+    .section-head p, .muted { color: var(--muted); }
+    .grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; }
+    .card {
+      border: 1px solid var(--line); background: linear-gradient(145deg, #151212, #0e0d0d);
+      border-radius: 13px; padding: 25px; min-height: 190px; transition: border-color .2s, transform .2s;
+    }
+    .card:hover { border-color: #8d292e; transform: translateY(-4px); }
+    .icon {
+      width: 46px; height: 46px; border-radius: 11px; display: grid; place-items: center;
+      background: #351316; color: #ff5555; font-size: 22px; margin-bottom: 19px;
+    }
+    .card h3 { margin: 0 0 8px; font-size: 19px; }
+    .card p { color: #aaa; font-size: 14px; margin: 0; }
+    .store-card { position: relative; overflow: hidden; }
+    .store-card:after { content: "✦"; position: absolute; right: 20px; top: 18px; color: #fa4141; font-size: 24px; opacity: .65; }
+    .tag { display: inline-block; font-size: 10px; color: #ff7777; background: #351316; padding: 4px 8px; border-radius: 5px; font-weight: 900; letter-spacing: 1px; }
+    .store-card .btn { margin-top: 20px; font-size: 13px; padding: 9px 13px; }
+    .team-note { text-align: center; border: 1px dashed #563033; background: #120d0e; border-radius: 12px; padding: 30px; color: #bcb2b2; }
+    .discord {
+      text-align: center; border-radius: 16px; padding: 55px 25px;
+      background: radial-gradient(ellipse at 50% 0%, #a91a2340, transparent 65%), #120d0e;
+      border: 1px solid #482226;
+    }
+    .discord p { color: #bcb2b2; max-width: 560px; margin: 0 auto 24px; }
+    .faq { max-width: 780px; margin: auto; display: grid; gap: 12px; }
+    details { background: #121010; border: 1px solid #2a2020; border-radius: 9px; padding: 17px 19px; }
+    summary { cursor: pointer; font-weight: 800; }
+    details p { color: #aaa; margin-bottom: 0; font-size: 14px; }
+    footer { border-top: 1px solid #241b1b; padding: 28px 0; color: #817878; font-size: 13px; }
+    .foot { display: flex; justify-content: space-between; align-items: center; gap: 15px; flex-wrap: wrap; }
+    .toast { position: fixed; bottom: 24px; left: 50%; transform: translate(-50%, 20px); opacity: 0; pointer-events: none; background: #f1f1f1; color: #111; padding: 11px 17px; border-radius: 8px; font-weight: 800; z-index: 50; transition: .25s; }
+    .toast.show { opacity: 1; transform: translate(-50%, 0); }
+    @media (max-width: 760px) {
+      .links { display: none; position: absolute; left: 20px; right: 20px; top: 70px; padding: 18px; background: #100e0e; border: 1px solid #382323; border-radius: 10px; flex-direction: column; align-items: stretch; gap: 15px; }
+      .links.open { display: flex; }
+      .menu-btn { display: block; }
+      .nav-cta { display: none; }
+      .hero { min-height: 590px; }
+      h1 { letter-spacing: -2px; }
+      .grid { grid-template-columns: 1fr; }
+      .section { padding: 65px 0; }
+    }
+  </style>
+</head>
+<body>
+  <div class="topline"></div>
+  <header>
+    <div class="wrap nav">
+      <a class="brand" href="#home" aria-label="SHULKERMC strona główna"><span class="brand-mark">S</span><span>SHULKER<b>MC</b></span></a>
+      <nav class="links" id="navLinks">
+        <a href="#home">Start</a><a href="#tryb">Tryb gry</a><a href="#sklep">Sklep</a><a href="#ekipa">Ekipa</a><a href="#faq">FAQ</a>
+      </nav>
+      <a class="nav-cta" href="#dolacz">DOŁĄCZ TERAZ ↗</a>
+      <button class="menu-btn" id="menuBtn" aria-label="Otwórz menu">☰</button>
+    </div>
+  </header>
+
+  <main>
+    <section class="hero" id="home">
+      <div class="wrap">
+        <div class="eyebrow"><span class="dot"></span> SERWER MINECRAFT • BOXPVP</div>
+        <h1>SHULKER<span>MC</span></h1>
+        <p>Wskakuj na arenę, walcz o najlepszy ekwipunek i pokaż, kto rządzi na BoxPvP. Twoja przygoda zaczyna się tutaj!</p>
+        <div class="hero-actions">
+          <a class="btn" href="#dolacz">⚔ ZAGRAJ TERAZ</a>
+          <a class="btn secondary" href="#tryb">POZNAJ TRYB</a>
+        </div>
+        <div class="ip-box">
+          <div><small>Adres serwera</small><strong>ShulkerMc.pl</strong></div>
+          <button class="copy" id="copyIp">KOPIUJ IP</button>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="tryb">
+      <div class="wrap">
+        <div class="section-head">
+          <div class="kicker">CO NA CIEBIE CZEKA?</div>
+          <h2>WEJDŹ DO ŚWIATA <span style="color:var(--red)">BOXPVP</span></h2>
+          <p>Przygotuj się na dynamiczną rozgrywkę. Zbieraj zasoby, rozwijaj ekwipunek i walcz o dominację.</p>
+        </div>
+        <div class="grid">
+          <article class="card"><div class="icon">⚔</div><h3>Dynamiczne PvP</h3><p>Sprawdź swoje umiejętności w walce z innymi graczami i pnij się w górę.</p></article>
+          <article class="card"><div class="icon">⛏</div><h3>Rozwijaj ekwipunek</h3><p>Zdobywaj lepsze przedmioty i przygotuj się na coraz trudniejsze pojedynki.</p></article>
+          <article class="card"><div class="icon">🏆</div><h3>Rywalizuj</h3><p>Buduj swoją pozycję na serwerze i udowodnij, że jesteś najlepszy.</p></article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section dark" id="sklep">
+      <div class="wrap">
+        <div class="section-head">
+          <div class="kicker">ZDOBĄDŹ WIĘCEJ</div>
+          <h2>SKLEP <span style="color:var(--red)">SERWERA</span></h2>
+          <p>Przestrzeń na Twoje rangi, zestawy i dodatki. Podłącz tutaj swój sklep, gdy będzie gotowy.</p>
+        </div>
+        <div class="grid">
+          <article class="card store-card"><span class="tag">RANGI</span><h3>Rangi premium</h3><p>Dodaj opisy i korzyści rang dostępnych na serwerze.</p><a class="btn secondary" href="#dolacz">ZOBACZ SKLEP</a></article>
+          <article class="card store-card"><span class="tag">ZESTAWY</span><h3>Zestawy</h3><p>Zaprezentuj zestawy startowe i specjalne przedmioty.</p><a class="btn secondary" href="#dolacz">ZOBACZ SKLEP</a></article>
+          <article class="card store-card"><span class="tag">DODATKI</span><h3>Inne dodatki</h3><p>Dodaj klucze, kosmetyki lub inne dostępne dodatki.</p><a class="btn secondary" href="#dolacz">ZOBACZ SKLEP</a></article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="ekipa">
+      <div class="wrap">
+        <div class="section-head">
+          <div class="kicker">LUDZIE ZA SERWEREM</div>
+          <h2>NASZA <span style="color:var(--red)">EKIPA</span></h2>
+          <p>Poznaj administrację SHULKERMC.</p>
+        </div>
+        <div class="team-note">Tutaj dodaj członków administracji, ich nicki Minecraft oraz funkcje na serwerze.</div>
+      </div>
+    </section>
+
+    <section class="section dark" id="dolacz">
+      <div class="wrap">
+        <div class="discord">
+          <div class="kicker">NIE GRAJ SAM</div>
+          <h2>DOŁĄCZ DO <span style="color:var(--red)">SHULKERMC</span></h2>
+          <p>Skopiuj adres serwera i dołącz do gry. Link do Discorda możesz dodać, podmieniając adres przycisku w kodzie.</p>
+          <button class="btn" id="copyIp2">KOPIUJ IP: SHULKERMC.PL</button>
+          <a class="btn secondary" href="https://discord.com/" target="_blank" rel="noopener">DISCORD ↗</a>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="faq">
+      <div class="wrap">
+        <div class="section-head"><div class="kicker">MASZ PYTANIA?</div><h2>CZĘSTE <span style="color:var(--red)">PYTANIA</span></h2></div>
+        <div class="faq">
+          <details><summary>Jak dołączyć na serwer?</summary><p>Uruchom Minecraft, wybierz tryb Multiplayer, dodaj serwer i wpisz adres ShulkerMc.pl.</p></details>
+          <details><summary>Jaki tryb gry jest dostępny?</summary><p>SHULKERMC to serwer z trybem BoxPvP.</p></details>
+          <details><summary>Gdzie znajdę sklep i Discord?</summary><p>Linki do sklepu i Discorda zostaną dodane przez administrację po uruchomieniu tych usług.</p></details>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="wrap foot"><a class="brand" href="#home"><span class="brand-mark">S</span><span>SHULKER<b>MC</b></span></a><span>© <span id="year"></span> SHULKERMC.PL • Serwer Minecraft</span><a href="#home">Powrót na górę ↑</a></div>
+  </footer>
+  <div class="toast" id="toast">Skopiowano IP serwera!</div>
+
+  <script>
+    const ip = "ShulkerMc.pl";
+    const toast = document.getElementById("toast");
+    function showToast(message) {
+      toast.textContent = message;
+      toast.classList.add("show");
+      setTimeout(() => toast.classList.remove("show"), 2200);
+    }
+    async function copyIp() {
+      try {
+        await navigator.clipboard.writeText(ip);
+        showToast("Skopiowano IP: " + ip);
+      } catch (e) {
+        const field = document.createElement("textarea");
+        field.value = ip; document.body.appendChild(field); field.select();
+        document.execCommand("copy"); field.remove();
+        showToast("Skopiowano IP: " + ip);
+      }
+    }
+    document.getElementById("copyIp").addEventListener("click", copyIp);
+    document.getElementById("copyIp2").addEventListener("click", copyIp);
+    document.getElementById("year").textContent = new Date().getFullYear();
+    document.getElementById("menuBtn").addEventListener("click", () => {
+      document.getElementById("navLinks").classList.toggle("open");
+    });
+    document.querySelectorAll("#navLinks a").forEach(a => a.addEventListener("click", () => {
+      document.getElementById("navLinks").classList.remove("open");
+    }));
+  </script>
+</body>
+</html>
